@@ -3,7 +3,9 @@
 Андрея Ушакова
 https://drive.google.com/drive/folders/1nht9dprk7TboV0oQjyIuHXSKkqBiuIdQ
 версии meteo-030320
+Добавлено получение данных сенсоров с контролеера domotiz
 
+Далее инструкция от Андрея Ушакова
 заполнить свои данные или перенести / to enter the data
 Settings_meteo.h 
 /data/config.txt

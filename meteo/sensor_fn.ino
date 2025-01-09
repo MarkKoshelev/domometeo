@@ -116,7 +116,7 @@ int tmp_u=int(round(ds.getTempCByIndex(0)));
 
 if (tmp_u<60&&tmp_u>-60)
 {
-if (temp_u!=tmp_u) ref_temp_u==true;
+if (temp_u!=tmp_u) ref_temp_u=true;
 
 temp_u=tmp_u;
 period_ulica=millis();
@@ -144,7 +144,47 @@ do_log();
 }
 #endif
 
+//================================================================
+//                        domoticz
+//================================================================
 
+#ifdef t_sensor_domoticz
+
+void do_read_domoticz()
+{
+static uint32_t t_period_domoticz=0;
+
+if (millis()<t_period_domoticz) //уже были данные
+	return;
+	
+t_period_domoticz=millis()+10000; 
+
+//ds.requestTemperatures();                         // считываем температуру с датчиков
+
+#ifdef  debug
+//Serial.print(F("== ")); 
+//Serial.println(ds.getTempCByIndex(0));                    // отправляем температуру
+#endif  
+
+int tmp_u=0; //int(round(ds.getTempCByIndex(0)));
+
+
+if (tmp_u<60&&tmp_u>-60)
+{
+if (temp_u!=tmp_u) ref_temp_u=true;
+
+temp_u=tmp_u;
+period_ulica=millis();
+
+t_period_domoticz=millis()+t_domoticz_ref*1000; //5min
+
+}
+else {
+	temp_u=200;
+}
+
+}
+#endif
 
 
 //================================================================

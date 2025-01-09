@@ -756,35 +756,21 @@ continue;
 
 //ищу фун
       for (int i = 0; i < fn_count; i++) {
-       
         if (func == fn[i]) {
- 
-  code[i]=ir_code;
-Serial.print (func); Serial.print("====FIND=======");
-Serial.println(code[i]);
-find=true;   
+            code[i]=ir_code;
+            Serial.print (func); Serial.print("====FIND=======");
+            Serial.println(code[i]);
+            find=true;   
         }
       }
-
-
-  
-  }
-
-
-
-        }
- 
+   }
+ } 
 }
 f.close();
 return find;
 }
 
-#endif pin_ir
-
-
-
-
-
+#endif //pin_ir
 
 
 //-----------------------------------------------------------------------------

@@ -4,10 +4,8 @@ bool play=false;
 #include "h\color.h"
 #include "settings_meteo.h"
 
-const char* ssid     = "";  //точка доступа
-const char* password = "";
-
-
+const char* ssid     = "PandoraBox";  //точка доступа
+const char* password = "abc1221def";
 
 
 byte t_b=99,t_e=99; //ночные часы беру из config
@@ -81,17 +79,17 @@ byte  beep_mp3_vol=0; //volume
 
 const byte fn_count=6;
 unsigned long code[fn_count] = {0};
-char * fn[] = { 
-"play","next","prev","vl+","vl-","mute"};
+//char * fn[] = { 
+//"play","next","prev","vl+","vl-","mute"};
 unsigned long code_btn[10] = {0};
 
-byte temp_kv=200;
+float temp_kv=200;
 int pr_kv=200;
 byte h_kv=200;
 bool ref_kv_th=false;
 bool ref_wh=false;
 bool ref_wh_now=false;
-int temp_u=200;
+float temp_u=200;
 unsigned long period_ulica=0;//во сколько принял Темп ул.
 uint32_t t_read_tk=0;//во сколько принял Темп кв
 unsigned int c_tu_frame=TFT_CYAN;
@@ -102,8 +100,6 @@ String lat     = "53.900002";
 String lon     = "27.566668";
 byte max_ch3=40;//&cnt=40 беру из conf, количество 3 часовых записей на 5дней,
 // не больше 40 , можно меньше если зависает, просто уменьшится кол-во дней в прогнозе
-
-
 
 
 #include <TimeLib.h>  // day of the week (1-7), Sunday is day 1
@@ -118,6 +114,17 @@ byte fav_ch[fav_count]={0};
 byte fav_count_real=0; //после упаковки если меньше чем задано
 #endif
   
+//============= domoticz =======================domoticz==============================================
+#ifdef domoticz
+#include "Domoticz.h"
+DomoticzCurrent domoticzNOW;
+#include "JsonStreamingParser.h"
+#include "JsonListener.h"
+JsonStreamingParser pars;
+unsigned long lastConnectionTime_domoticz = 0;
+unsigned long postingInterval_domoticz = 0;
+#endif
+
 
 //=============openw=============================openw================================================
 #ifdef openw
@@ -145,11 +152,7 @@ const String url_now_b="http://api.openweathermap.org/data/2.5/weather?lang=EN&u
   #endif //EN
 
 
-
 const String url_uv_b="http://api.openweathermap.org/data/2.5/uvi?appid=";
-
-
-
 
 
 float rain_mm=0;//количество осадков за день
@@ -221,9 +224,6 @@ FtpServer ftpSrv;
 #endif
 
 
-
-
-
 #define FS_NO_GLOBALS //allow spiffs to coexist with SD card, define BEFORE including FS.h
 #include <FS.h> //spiff file system
 
@@ -236,7 +236,6 @@ int Sf_t_slide=30; //config.txt
 #ifdef ESP32
 #include "SPIFFS.h" // Needed for ESP32 only
 #endif
-
 
 
 //==========ESP8266============ESP8266===============ESP8266==================ESP8266=========ESP8266
@@ -354,12 +353,6 @@ String fn_cmd="";//stop play next prev
 //---------------------------------
 
 
-
-
-
-
-
-
 //IR ESP8266========================================
 #if defined(pin_ir) && defined(ESP8266) 
 //IR========================================
@@ -391,16 +384,13 @@ uint32_t t_timer=0; //play radio timer onf
 //#define FORMAT_SPIFFS_IF_FAILED true
 
 
-char* password_ap = "11111111";//ap
+const char* password_ap = "11111111";//ap
 const char* ssid_ap = "ESP_METEO";//ap
 const char* passw_new = "";//ap
 const char* ssid_new = "";//ap
 IPAddress local_ip(192,168,11,11);
 IPAddress gateway(192,168,11,1);
 IPAddress netmask(255,255,255,0);
-
-
-
 
 
 //=================================================================================
@@ -501,9 +491,6 @@ DallasTemperature ds(&oneWire);
 
 
 
-
-
-
 bool ref_temp_u=false;
 //=========================================
 #ifdef nrf
@@ -517,20 +504,7 @@ byte address[][6] = {"1Node","2Node","3Node","4Node","5Node","6Node"};  //воз
 
 
 
-
-
-
-
-
 IPAddress timeServerIP; 
-
-
-
-
-
-
-
-
 
 ///NTP===========================================
 #include <WiFiUdp.h>
@@ -547,8 +521,6 @@ String t_sun_v="",t_sun_z="";
 int t_sun_v_hh=99,t_sun_z_hh=99;
 
 
-
-
 WiFiUDP udp;
 
 
@@ -562,15 +534,9 @@ WiFiUDP udp_wf;
 //---------------------------------------
 
 
-
-
-
-
-
 bool nigth=false;
 time_t t;
 bool refresh_all=true; //флаг что есть новые данными надо перерисовать 
-
 
 
 //SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
@@ -585,10 +551,6 @@ Serial.begin(115200);
 digitalWrite(TFT_CS, HIGH); // TFT screen chip select
 digitalWrite( pin_sd, HIGH); // SD card chips select
 #endif
-
-
-
-
 
 
 tft.begin();
@@ -894,13 +856,6 @@ if (log_file) do_log();
 #endif
 
 
-
-
-
-
-
-
-
 //------------------------------------
 //==================================
 #ifdef pin_beep
@@ -915,9 +870,6 @@ do_log();
 
 #endif
 //----------------------------------
-
-
-
 
 
 #ifdef openw
@@ -1004,12 +956,8 @@ server.on("/",handleRoot);
 server.onNotFound(handleNotFound);
 
 
-
-
-
 server.begin();
 Serial.println(F("HTTP server started"));
-
 
 if (WiFi.getMode()==WIFI_AP)
 goto end_setup;
@@ -1179,44 +1127,35 @@ do_log();
 // LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL 
 void loop() {
 
-
-
 //wwww
 if (!play) 
 server.handleClient();
 
 
-if (WiFi.getMode()==WIFI_AP)
-  {
-if (millis() >t_stay_ap)
-{
-if (log_file)
-{
-log_str=(F("ESP reboot after WIFI AP"));
-do_log();  
-}
-ESP.restart(); 
-}
+if (WiFi.getMode()==WIFI_AP){
+	if (millis() >t_stay_ap){
+		if (log_file){
+			log_str=(F("ESP reboot after WIFI AP"));
+			do_log();  
+		}
+		ESP.restart(); 
+	}
 //если по какой то причине сразу не приконн.
 //перегр через 700sec.
-goto skip_all;
-   } 
+	goto skip_all;
+} 
 //--------------------------------------
 
 #ifdef ESP32
 //begin-stop play 
 if (t_timer!=0)
-do_timer();
+	do_timer();
 #endif
-
-
 
 //WIFI read data
 #ifdef wf_read
 if (WiFi.status() == WL_CONNECTED) do_wf_read();
 #endif
-
-
 
 
 //-------------------Sensors------------- --------------
@@ -1255,39 +1194,37 @@ scr_num_show(scr_number);
 do_touch_btn(2);
 #endif //ESP32 pin_btn_No_touch
 
-
-
-
-
 //FTP
 #ifdef ftp
-if (WiFi.status() == WL_CONNECTED) ftpSrv.handleFTP();   
+if (WiFi.status() == WL_CONNECTED)
+	ftpSrv.handleFTP();   
 #endif
 
 //ntp not sync
-if (!sync_t||sync_force==true) do_ntp();
-
+if (!sync_t||sync_force==true)
+	do_ntp();
 
  // openw  before t=now()---------------
 #ifdef openw
 if (!play&&!play_mp3)  do_openw(); //zapros openW
 #endif  //ow
 
-
+#ifdef domoticz
+if (!play&&!play_mp3)  do_domoticz(); //zapros domoticz
+#endif  //ow
 
 //--------------- раз в минуту   ---------------------------   
 if (sync_t)  
 {
-t=now();
+	t=now();
 #ifdef  time_correct 
-now_correct() ;
+	now_correct() ;
 #endif
-do_every_min();  //shed,beep,scr_sav,restart  t=now();
+	do_every_min();  //shed,beep,scr_sav,restart  t=now();
 }
 
-
 #ifdef only_radio //если  одно радио опрос лок. сенсоров
-read_sensors_radio();
+	read_sensors_radio();
 #endif //radio
 
 //========================================================================
@@ -1318,9 +1255,7 @@ if (WiFi.status() == WL_CONNECTED) ArduinoOTA.handle();
 //ntp
 do_ntp();
 
-
-//ulica
-         
+   
 #ifdef nrf
 do_read_ulica();   
 #endif
@@ -1343,19 +1278,17 @@ do_read_dht();
 if (WiFi.status() == WL_CONNECTED) do_wf_send();
 #endif
 
-
-
 //-----------scr saver----------------------
 if (t_ref_tft>0&&t_ref_tft<60&&minute(t)%t_ref_tft==0) 
     {
-if (ref_tft==true)
-{
-ref_tft=false;
-//scr_num_show(scr_number); 
-refresh_all=true;  
-tft.fillScreen(TFT_BLACK);
+		if (ref_tft==true)
+		{
+		ref_tft=false;
+		//scr_num_show(scr_number); 
+		refresh_all=true;  
+		tft.fillScreen(TFT_BLACK);
 
-}
+		}
     }  else ref_tft=true  ;
 //----------------
 
@@ -1394,7 +1327,7 @@ do_scr_round();
 
 
 #if !defined (openw) &&   defined (tft_320_240)
-if(!nigth&&scr_name[scr_number]!="Sn"&& scr_show_count>&&scr_round)
+if(!nigth&&scr_name[scr_number]!="Sn"&& scr_show_count>1 && scr_round)
 do_scr_round();
 #endif
 
@@ -1433,9 +1366,6 @@ S3_show();
 
 
 #endif //S3 tft_320_240
-
-
-
 
 
 //tft_480_320 S3
@@ -1557,8 +1487,6 @@ skip_all:;
 }
 
 // E---loop---EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-
-
 
 
 //------------------------------------------------------------------------------------

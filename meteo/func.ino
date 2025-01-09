@@ -146,8 +146,8 @@ return;
 //--------------------
   #if !defined (openw) &&   defined (tft_320_240)
 //0
-
-if(t_S0_show>0&&max_jpg_num>0 && millis()>t_S0_next)  //second(t) чтобы сначало прорисовал минуты >2sec
+//if(t_S0_show>0&&max_jpg_num>0 && millis()>t_S0_next)  //second(t) чтобы сначало прорисовал минуты >2sec
+if(t_S0_show>0 && millis()>t_S0_next)  //second(t) чтобы сначало прорисовал минуты >2sec
 {
 t_S0_next=millis()+t_S0_show*1000+t_Sf_show*1000;
 if (do_find_scr("S0")) scr_num_show(scr_number);
@@ -205,8 +205,6 @@ return;
 
 #endif //!defined (openw) &&   defined (tft_480_320)
 //--------------------
-
-
   
 }
 
@@ -214,9 +212,7 @@ return;
 //voshod zah
 void do_sun()
   {
-    
 
-  
 TimeLord tardis; 
 
 tardis.TimeZone(TIMEZONE * 60);
@@ -310,7 +306,6 @@ byte the_time_moon[] = {0, 0, 0, day(t),month(t), year(t)-2000};
 float ph=myLord.MoonPhase(the_time_moon);
 
 
-
 byte f;
 if (ph<0.02085) f=23;
 else
@@ -391,10 +386,6 @@ else
 col=t_3_color;
 return col;
 }
-
-
-
-
 
 
 #ifdef pin_beep
@@ -780,17 +771,18 @@ tft.setTextColor(TFT_YELLOW);
 if (temp_kv!=200) //bme 270,73
   {
 tft.setFreeFont(v9);
-tft.setCursor(x+4,y+16);
-tft.print(temp_kv);
-tft.setFreeFont(v6);
-tft.setTextColor(TFT_WHITE);
-tft.print("c");
+tft.drawFloat(temp_kv, 1,x+2, y+4);
+//tft.setCursor(x+3,y+16);
+//tft.print(temp_kv);
+//tft.setFreeFont(v6);
+//tft.setTextColor(TFT_WHITE);
+//tft.print("c");
   }
 if (h_kv!=200) //bme
   {  
 tft.setFreeFont(v9);
 tft.setTextColor(TFT_CYAN);
-tft.setCursor(x+4,y+33);
+tft.setCursor(x+2,y+33);
 tft.print(h_kv);
 tft.setFreeFont(v6);
 tft.setTextColor(TFT_WHITE);
@@ -825,10 +817,13 @@ tft.setFreeFont(v12);
 if (temp_kv!=200) //bme
 {
 tft.setCursor(x+5,y+23);
-tft.print(temp_kv);
-tft.setTextColor(TFT_WHITE);
-tft.setFreeFont(v6);
-tft.print("C");
+
+tft.drawFloat(temp_kv, 1,x+5, y+15);
+
+//tft.print(temp_kv);
+//tft.setTextColor(TFT_WHITE);
+//tft.setFreeFont(v6);
+//tft.print("C");
 }
 if (h_kv!=200) //bme
   {

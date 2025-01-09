@@ -30,10 +30,10 @@ char  ver[]= "030320";
 //=====================================================================|
 //выбрать разрешение дисплея / to choose resolution of the display     |
 //=====================================================================|
-//#define tft_320_240              //                                    |
-#define tft_480_320            //                                    |
+#define tft_320_240              //                                    |
+//#define tft_480_320            //                                    |
 
-const uint8_t rotation=3; //1,3 3-SD сверху/top
+const uint8_t rotation=1; //1,3 3-SD сверху/top
 //#define tft_no_invert     //если цвета в инверсии раскомментировать/if the colors in the inversion are uncomment
 
 
@@ -47,15 +47,15 @@ const uint8_t rotation=3; //1,3 3-SD сверху/top
 const uint8_t rotation2=3; // TFT num=2 // 1,3 3-SD сверху/top
 
 //PIN TFT 1--------------
-#define TFT_CLK 18   
-#define TFT_MOSI 23   
+#define TFT_CLK   18   
+#define TFT_MOSI  23   
 #define TFT_CS    5
 #define TFT_RST   -1 
 #define TFT_DC    33
 #define TFT_MISO  -1
 
 //PIN TFT 2---------------
-#define TFT_CLK2 14   
+#define TFT_CLK2  14   
 #define TFT_MOSI2 13   
 #define TFT_CS2   15
 #define TFT_RST2  -1 
@@ -169,8 +169,18 @@ const int doutPin=25;   //                                      |
 //==============================ESP32===========================|
 
 
+//====================================================================
+//              Domoticz
+//====================================================================
 
-
+#define  domoticz
+#ifdef domoticz
+//http://192.168.1.20:8080/json.htm?type=devices&rid=92";
+const String url_domoticzIn="http://192.168.1.20:8080/json.htm?type=command&param=getdevices&rid=92"
+//http://192.168.1.20:8080/json.htm?type=devices&rid=104
+const String url_domoticzOut="http://192.168.1.20:8080/json.htm?type=command&param=getdevices&rid=104";
+long  t_period_domoticz = 60;    // sec частота запросов контроллера domoticz
+#endif
 
 //====================================================================
 //              openWeatherMap
@@ -179,7 +189,7 @@ const int doutPin=25;   //                                      |
         //If there is a weather key and it is written in/data/config.txt!
         // если нет ключа , закомментировать #define  openw будут просто часы + датчики
         //If there is no key, comment # define openw will simply be a clock+sensors
-#define  openw
+//#define  openw
 
 #ifdef openw  //if there is openW key. if is not present there will be just hours, to comment out #define openw
 long t_period_ch=1200; //частота запросов погоды 1200сек=20мин (openw 1 time 20 min.) 60sec*20
@@ -200,8 +210,9 @@ float rain_m=1; //0.5-1.00мм вкл средний две точки, боль
 //====================================================================
         //откуда берем время  4 варианта, можно свои
         //where we take the time, you can your servers
+		//используем 1 вариант - локальный сервер
 const unsigned long t_period_ntp=3600000; //частота запросов NTP 1 час
-const char* ntpServerName1 = "ntp4.stratum1.ru";//vega.cbk.poznan.pl
+const char* ntpServerName1 = "192.168.1.20"; 	 // Home IoT sever (domoticz, hass)
 const char* ntpServerName2 = "ntp5.stratum2.ru"; //резервный ntp
 const char* ntpServerName3 = "time.nist.gov";
 const char* ntpServerName4 = "by.pool.ntp.org";
@@ -318,7 +329,7 @@ const byte CSnrf=4; //Chip Select
       //если нет надо можно закомм-ть #define pin_ds1820
       //outdoor temperature
 //#define pin_ds1820  D4  //D4
-const unsigned int t_ds_ref=300 ;//sec T ref sensor, период обновления датчика
+const unsigned int t_ds_ref=300 ;//DS18B20, DomoticzOut, sec T ref sensor, период обновления датчика
 //---------------------------------------------------
 
 
@@ -336,7 +347,7 @@ const unsigned int t_ds_ref=300 ;//sec T ref sensor, период обновле
 
   #ifdef pin_dht
 //#define DHTTYPE DHT11   // DHT 11
-#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
+//#define DHTTYPE DHT22     // DHT 22  (AM2302), AM2321
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)             
   #endif
 
@@ -347,7 +358,7 @@ const unsigned int t_ds_ref=300 ;//sec T ref sensor, период обновле
 
 
 
-const unsigned int t_bme_ref=300 ;//sec T ref sensor, период обновления датчика SI,BME,DHT 5min def
+const unsigned int t_bme_ref=300 ;//sec T ref sensor, период обновления датчика SI,BME,DHT,DomoticzIn 5min def
 //------------------------------------------------
 
 

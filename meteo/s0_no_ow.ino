@@ -1,5 +1,5 @@
 #ifndef openw 
-#ifdef tft_320_240)
+#ifdef tft_320_240
 //time///////////////////////////////////////tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
 void S0_time()
 {
@@ -64,11 +64,6 @@ drawJpeg(fileName,80,0);//220
 
 }
 
-
-
-
-
-
 //////////////////min
 
 if (minute(t)<10) 
@@ -111,10 +106,7 @@ tft.setCursor(263,195);
 tft.print(t_sun_z);
 tft.setFreeFont(v6);
 
-
-
 tft.drawFastHLine(0,200,320,TFT_LIGHTGREY) ; //под часами
-
 
 }
 
@@ -132,17 +124,18 @@ int  x=168;
 //tttttttttttttttttttttttttttttttttttttttttttttt
 if (temp_u!=200)
 {
-tft.setFreeFont(v18);
+tft.setFreeFont(v12);
 tft.setTextColor(color_t(temp_u));
 if (!refresh_all) tft.fillRect(x,201,70,38,TFT_BLACK);
 tft.setCursor(x,235);
-if (temp_u!=200) tft.print(temp_u);
+Serial.printf("temp_u: %u\n", temp_u);
+ 
+if (temp_u!=200) tft.drawFloat(temp_u, 1, x+3, 212); //tft.print(temp_u);
 if (ref_temp_u)  ref_temp_u=false;
 }
 
 //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
 if (temp_kv!=200||h_kv!=200) S_show_th_room(233,199);
-
 
 //ppppppppppppppppppppppppppppp
 x=285;
@@ -156,17 +149,12 @@ tft.print(pr_kv);
 }
  
 
-   
-
 //#endif
 
 if (!refresh_all) return;  
 
-
-
 tft.drawFastVLine(130,200,39,TFT_LIGHTGREY) ;
 tft.drawFastVLine(164,200,39,TFT_LIGHTGREY) ;
-
 
 //ddddddddddddddddddddddddddddddddddddd
 //time_t t =now();
@@ -200,9 +188,7 @@ String fileName;
 fileName=do_phasemoon()+"_32.jpg";
 drawJpeg(fileName,131,205);
 
-
-
 }
 #endif //320-240
 #endif //no openw
- 
+

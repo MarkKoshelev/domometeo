@@ -1,4 +1,21 @@
 
+#ifdef domoticz
+void do_domoticz()
+{
+
+	if (WiFi.status() == WL_CONNECTED) {
+		if (millis() < lastConnectionTime_domoticz) lastConnectionTime_domoticz = 0;
+		 if (millis() - lastConnectionTime_domoticz > postingInterval_domoticz || lastConnectionTime_domoticz == 0) {
+			Serial.println("do_parse_domoticz");
+			if (do_parse_domoticz_out() && do_parse_domoticz_in()){
+			ref_wh_now=true;      
+		   }
+		}
+	}
+}
+#endif
+
+
 #ifdef openw
 
 void do_openw()
@@ -17,9 +34,6 @@ ref_wh_now=true;
 
 }
 
-
-
-
  // wh 3 hour--------------------------------------
 if (WiFi.status() == WL_CONNECTED) {
     if (millis() < lastConnectionTime_ch) lastConnectionTime_ch = 0;
@@ -34,8 +48,6 @@ ref_wh=true;
 
 }
 
-
-
  //UV--------------------------------------
   if (WiFi.status() == WL_CONNECTED) {
     if (millis() < lastConnectionTime_uv) lastConnectionTime_uv = 0;
@@ -44,11 +56,6 @@ ref_wh=true;
      
     }
   }
-
-
-
-
-  
 }
 
 
@@ -92,12 +99,7 @@ tft.print(outstr);
               
 #endif 
 
-
-
-
 }
-
-
 
 
 //===================================================================================================
@@ -135,14 +137,8 @@ if (mm>=rain_m) tft.fillCircle(x,y+step*2,2,color);
           
 }
 #endif 
-
-
   
 }
-
-
-
-
 
 //===================================================================================================
 //            S_show_uv
@@ -177,9 +173,6 @@ tft.setCursor(x+1,y+23);
 tft.print(int(uv));
 }
 
-
-
-
 }
 
 
@@ -210,8 +203,6 @@ color_uv=uv5_color;
 return color_uv;  
 }
 
-
-
 //==============================================================
 //								do_deg
 //==============================================================
@@ -238,8 +229,5 @@ if (gr>=241 && gr<=300){wind_ico="/wind_12.jpg";c_wind=Sg_c_wing_W;} //запа�
 if (gr>=301 && gr<=330){wind_ico="/wind_14.jpg";c_wind=TFT_CYAN;}
 if (gr>=331 && gr<=360){wind_ico="/wind_0.jpg";c_wind=TFT_CYAN;}
 }
-
-
-
 
 #endif  //openw

@@ -1,17 +1,17 @@
 //предупреждения на экран (prevention on the screen)
-#key;99999999999; //key openW
+#key;d35f27fc050134e65cfe6f170128d4fb; //key openW
 #p_min;722; //давление упало <мин (prevention min. pressure)
 #p_max;755;// давление выше> макс (prevention max. pressure)
 #v_max;7;	//скорость ветра>=   (prevention wind speed) 
 #TIMEZONE;3;
-#lat;53.900002;
-#lon;27.566668;
+#lat;56.1259229;
+#lon;37.217013;
 #t_max;29;// темпер макс (temperature>max)
 #t_min;-12;	//темпер мин  (temperature<min)
 #uv_max;7;	// ультрофиолет >макс (Ultra-violet radiation>)
 #delta_p;-10;// поправка давления openW (correction of pressure sensor)
-#beep_b;9;	// сигнал начало, кажд час, vol 0-99,0 нет сигнала (buzzer signal start every hour,0 no signal)
-#beep_e;22;// сигнал конец (signal buzzer stop)
+#beep_b;9;	 // сигнал начало, кажд час, vol 0-99,0 нет сигнала (buzzer signal start every hour,0 no signal)
+#beep_e;22;  // сигнал конец (signal buzzer stop)
 #beep_mp3_vol;90;// beep.mp3 file esp32 сигнал каждый час (signal each hour)
 #t_b;2; 	// ночные часы начало (night screen start)	
 #t_e;7;	// ноч. конец (night screen stop)
