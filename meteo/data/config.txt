@@ -1,0 +1,57 @@
+//предупреждения на экран (prevention on the screen)
+#key;99999999999; //key openW
+#p_min;722; //давление упало <мин (prevention min. pressure)
+#p_max;755;// давление выше> макс (prevention max. pressure)
+#v_max;7;	//скорость ветра>=   (prevention wind speed) 
+#TIMEZONE;3;
+#lat;53.900002;
+#lon;27.566668;
+#t_max;29;// темпер макс (temperature>max)
+#t_min;-12;	//темпер мин  (temperature<min)
+#uv_max;7;	// ультрофиолет >макс (Ultra-violet radiation>)
+#delta_p;-10;// поправка давления openW (correction of pressure sensor)
+#beep_b;9;	// сигнал начало, кажд час, vol 0-99,0 нет сигнала (buzzer signal start every hour,0 no signal)
+#beep_e;22;// сигнал конец (signal buzzer stop)
+#beep_mp3_vol;90;// beep.mp3 file esp32 сигнал каждый час (signal each hour)
+#t_b;2; 	// ночные часы начало (night screen start)	
+#t_e;7;	// ноч. конец (night screen stop)
+#scr_name_def;S2; //экран по умолчанию (screen after loading)
+#esp_restart;23; //если надо перегружать esp каждый день (esp restart-hour)
+
+//экраны по кругу / screens around
+//#S1_show;60;//если надо менять экраны по времени 
+//#S2_show;25;
+//#S3_show;35;//if it is necessary to change screens on time sec
+//#S4_show;15;
+//#S5_show;55;
+//#Sg_show;15; //график graph
+//#Sf_show;15; //foto 
+//#S0_show;40; //no openW, актуально если есть SD
+
+//сколько sec показывать фото
+#Sf_t_slide;5; //sec slide foto, if pin_sd card SD/foto/
+
+
+
+//#log;;       //save log file ntp,openw 2day
+
+//-----------IoT https://www.thingspeak.com
+#iot_id;99999;//Channel ID
+#iot_key;9999999999;
+#iot_period_send;300;	//period send sec >=20s
+#iot_T_fld_send;1;	//temp квартира(room);ном поля(num field) bme bmp280 HTU21D SI7021
+#iot_H_fld_send;2;	//humidity квартира(room) bme280 HTU21D SI7021
+#iot_T2_fld_send;3;	//temp улица(street)ds1820
+#iot_P_fld_send;4; //давление(pressure)   bme bmp280 or openw
+#iot_W_fld_send;5; //скорость ветра (wind speed) openw
+#iot_R_fld_send;6; //дождь мм(rain) openw
+
+//--------iot read------------------
+#iot_id_read;99999;
+#iot_key_read;99999999;
+#iot_period_read;25;
+#iot_T_fld_read;1;
+#iot_H_fld_read;2;
+#iot_T2_fld_read;3;
+#iot_P_fld_read;4;
+
