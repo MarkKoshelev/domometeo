@@ -128,7 +128,7 @@ tft.setFreeFont(v12);
 tft.setTextColor(color_t(temp_u));
 if (!refresh_all) tft.fillRect(x,201,70,38,TFT_BLACK);
 tft.setCursor(x,235);
-Serial.printf("temp_u: %u\n", temp_u);
+Serial.printf("temp_u: %f\n", temp_u);
  
 if (temp_u!=200) tft.drawFloat(temp_u, 1, x+3, 212); //tft.print(temp_u);
 if (ref_temp_u)  ref_temp_u=false;

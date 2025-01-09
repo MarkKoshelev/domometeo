@@ -176,7 +176,7 @@ const int doutPin=25;   //                                      |
 #define  domoticz
 #ifdef domoticz
 //http://192.168.1.20:8080/json.htm?type=devices&rid=92";
-const String url_domoticzIn="http://192.168.1.20:8080/json.htm?type=command&param=getdevices&rid=92"
+const String url_domoticzIn="http://192.168.1.20:8080/json.htm?type=command&param=getdevices&rid=92";
 //http://192.168.1.20:8080/json.htm?type=devices&rid=104
 const String url_domoticzOut="http://192.168.1.20:8080/json.htm?type=command&param=getdevices&rid=104";
 long  t_period_domoticz = 60;    // sec частота запросов контроллера domoticz

@@ -450,18 +450,15 @@ Serial.println(F("void scr_pack"));
 Serial.println(F("init scr"));
 char *scr_name_tmp[scr_count]={""}; //def  
 
-for (byte i=0; i < scr_count; i++)
-{
-scr_name[i]="";
-scr_name_tmp[i]="";
+for (byte i=0; i < scr_count; i++){
+  scr_name[i]="";
+  scr_name_tmp[i]="";
 }
 
 #ifdef S0 
 scr_name[0]="S0";
 Serial.println(F("scr_name[0]=S0"));
 #endif
-
-
 
 #ifdef S1 
 scr_name[1]="S1";
@@ -492,13 +489,10 @@ scr_name[5]="S5";
 Serial.println(F("scr_name[5]=S5"));
 #endif
 
-
 #if defined (pin_sd) && defined (Sf)
 scr_name[6]="Sf";
 Serial.println(F("scr_name[6]=Sf"));
 #endif
-
-
 
 #ifdef Sg 
 #ifndef tft2_Sg
@@ -513,12 +507,9 @@ scr_name[9]="Sn";
 Serial.println(F("scr_name[9]=Sn"));
 #endif
 
-
 byte i_in=0;
 
-
-for (byte i=0; i < scr_count; i++)
-{
+for (byte i=0; i < scr_count; i++) {
 //#ifdef debug
 //Serial.print(F("scr_name=="));
 //Serial.println(scr_name[i]);
@@ -526,34 +517,25 @@ for (byte i=0; i < scr_count; i++)
 //Serial.println(i);
 //#endif
 
-if (scr_name[i]!="") 
-{
-//Serial.println("ADD");
-scr_name_tmp[i_in]= scr_name[i];
-i_in++;
-scr_count_pack=i_in;
-
+  if (scr_name[i]!="") {
+    //Serial.println("ADD");
+    scr_name_tmp[i_in]= scr_name[i];
+    i_in++;
+    scr_count_pack=i_in;
+  }
+  scr_name[i]="";
 }
-
-scr_name[i]="";
-}  
 
 #ifdef debug
 Serial.print("scr_count_pack=");
 Serial.println(scr_count_pack);
 #endif
-for (byte i=0; i < scr_count; i++)
-{
-scr_name[i]=scr_name_tmp[i];
-Serial.print("SCR[");Serial.print(i);Serial.print("]=");
-Serial.println(scr_name[i]);
-}  
-
-
+  for (byte i=0; i < scr_count; i++){
+    scr_name[i]=scr_name_tmp[i];
+    Serial.print("SCR[");Serial.print(i);Serial.print("]=");
+    Serial.println(scr_name[i]);
+  }  
 }
-
-
-
 
 //=========================================================
 //                        do_find_scr
@@ -564,37 +546,30 @@ bool do_find_scr(char sname[ ] )
 bool fnd=false;
 Serial.print("do_find_scr=");Serial.println(sname);
 Serial.print("sizeoff sname =");Serial.println(sizeof(sname));
-for (byte i = 0; i < scr_count; ++i) 
-{ 
+for (byte i = 0; i < scr_count; ++i) { 
 //#ifdef debug
 //Serial.print("scr_name[i] =");Serial.println(sizeof(scr_name[i]));
 //#endif
-if ( strcmp(scr_name[i],sname) == 0 )
-      {
-fnd=true;
-Serial.print("Scr find=");Serial.println(i);
-
-scr_number=i;
-
-break;
-      }
-
+  if ( strcmp(scr_name[i],sname) == 0 ) {
+    fnd=true;
+    Serial.print("Scr find=");Serial.println(i);
+    scr_number=i;
+    break;
+  }
 }
+
 if (!fnd) Serial.print(F("NO find scr_name "));
 Serial.println(sname);
 
-
 return fnd;
 }
-
 
 
 //--------------------------------------------------------------------
 //        draw_week_day
 //--------------------------------------------------------------------
 
-void draw_week_day(int x,int y)
-{
+void draw_week_day(int x,int y){
 //день недели-------------------------
 //t=now();
 byte wd=weekday(t)-1;
@@ -610,8 +585,7 @@ drawJpeg("/w"+String(wd)+".jpg",x,y);//220
 //--------------------------------------------------------------------
 //        draw_tr_up
 //--------------------------------------------------------------------
-void draw_tr_up(int x,int y)
-{
+void draw_tr_up(int x,int y){
 #ifdef tft_320_240 
 tft.drawTriangle(x,y,x+6,y,x+3,y-10,TFT_YELLOW);
 #endif
@@ -626,8 +600,7 @@ tft.drawTriangle(x,y,x+6,y,x+3,y-12,TFT_YELLOW);
 //--------------------------------------------------------------------
 //        draw_tr_down
 //--------------------------------------------------------------------
-void draw_tr_down(int x,int y)
-{
+void draw_tr_down(int x,int y) {
 #ifdef tft_320_240 
 tft.drawTriangle(x+3,y,x,y-10,x+6,y-10,TFT_CYAN);
 #endif
@@ -635,16 +608,8 @@ tft.drawTriangle(x+3,y,x,y-10,x+6,y-10,TFT_CYAN);
 #ifdef tft_480_320
 tft.drawTriangle(x+3,y,x,y-12,x+6,y-12,TFT_CYAN);
 #endif
-
-  
+ 
 }
-
-
-
-
-
-
-
 
 //=====================================================================
 //                            show_time_start
@@ -667,45 +632,33 @@ Serial.println (time%60);
 #endif
 
 
-
-
 //=====================================================================
 //                            draw_next
 //=====================================================================
-void draw_next()
-{
-if (play) tft.fillTriangle(120,65,105,60,105,70,TFT_GREEN);
+void draw_next() {
+if (play) 
+  tft.fillTriangle(120,65,105,60,105,70,TFT_GREEN);
 else
-tft.fillTriangle(20,10,5,5,5,15,TFT_GREEN);
- 
+  tft.fillTriangle(20,10,5,5,5,15,TFT_GREEN);
 }
-
-
 
 //=====================================================================
 //                            draw_prev
 //=====================================================================
 
-void draw_prev()
-{
-if (play) tft.fillTriangle(120,60,120,70,105,65,TFT_YELLOW);
+void draw_prev() {
+if (play) 
+  tft.fillTriangle(120,60,120,70,105,65,TFT_YELLOW);
 else
-tft.fillTriangle(20,5,20,15,5,10,TFT_YELLOW);
+  tft.fillTriangle(20,5,20,15,5,10,TFT_YELLOW);
 } 
-
-
-
-
 
 //=====================================================================
 //                            draw_stop
 //=====================================================================
 
-void  draw_stop()
-{
-
-tft.fillCircle(120,65,4,TFT_RED);    
-
+void  draw_stop() {
+  tft.fillCircle(120,65,4,TFT_RED);    
 }
 
 
@@ -714,13 +667,11 @@ tft.fillCircle(120,65,4,TFT_RED);
 //                            draw_play
 //=====================================================================
 
-void  draw_play() //на главном экране
-{
+void  draw_play(){ //на главном экране
 if (play)
-tft.fillCircle(135,20,4,TFT_RED);
+  tft.fillCircle(135,20,4,TFT_RED);
 else
-tft.fillCircle(15,15,4,TFT_RED);   
-
+  tft.fillCircle(15,15,4,TFT_RED);   
 }
 
 
@@ -729,67 +680,54 @@ tft.fillCircle(15,15,4,TFT_RED);
 //=====================================================================
 //                            draw_stop_round
 //=====================================================================
-void draw_stop_round()
-{
-
+void draw_stop_round() {
 #ifdef tft_320_240
 if (scr_round) 
-tft.fillTriangle(300,0,319,0,319,10,TFT_BLACK);
+  tft.fillTriangle(300,0,319,0,319,10,TFT_BLACK);
 else
-tft.fillTriangle(300,0,319,0,319,10,TFT_RED);
+  tft.fillTriangle(300,0,319,0,319,10,TFT_RED);
 #endif
-
-
 
 #ifdef tft_480_320
 if (scr_round) 
-tft.fillTriangle(460,0,479,0,479,10,TFT_BLACK);
+  tft.fillTriangle(460,0,479,0,479,10,TFT_BLACK);
 else
-tft.fillTriangle(460,0,479,0,479,10,TFT_RED);
+  tft.fillTriangle(460,0,479,0,479,10,TFT_RED);
 #endif
-  
-
-
 }
-
-
-
-
 
 //==========================================================================================
 //  tft_320_240          S_show_th_room
 //==========================================================================================
 #if defined(tft_320_240)
-void S_show_th_room(int x,int y)
-{
-if (temp_kv==200&&h_kv==200) return;
+void S_show_th_room(int x,int y) {
+  if (temp_kv==200&&h_kv==200)
+     return;
 
-tft.fillRect(x,y,44,38,TFT_BLACK);
-tft.drawRoundRect(x,y,44,38,3,c_th_frame);
+  tft.fillRect(x,y,44,38,TFT_BLACK);
+  tft.drawRoundRect(x,y,44,38,3,c_th_frame);
 
-tft.setTextColor(TFT_YELLOW);
-if (temp_kv!=200) //bme 270,73
-  {
-tft.setFreeFont(v9);
-tft.drawFloat(temp_kv, 1,x+2, y+4);
+  tft.setTextColor(TFT_YELLOW);
+  if (temp_kv!=200){ //bme 270,73
+    tft.setFreeFont(v9);
+  
+  tft.drawFloat(temp_kv, 1,x+2, y+4);
 //tft.setCursor(x+3,y+16);
 //tft.print(temp_kv);
 //tft.setFreeFont(v6);
 //tft.setTextColor(TFT_WHITE);
 //tft.print("c");
   }
-if (h_kv!=200) //bme
-  {  
-tft.setFreeFont(v9);
-tft.setTextColor(TFT_CYAN);
-tft.setCursor(x+2,y+33);
-tft.print(h_kv);
-tft.setFreeFont(v6);
-tft.setTextColor(TFT_WHITE);
-tft.print("%");
+
+if (h_kv!=200){ //bme
+  tft.setFreeFont(v9);
+  tft.setTextColor(TFT_CYAN);
+  tft.setCursor(x+2,y+33);
+  tft.print(h_kv);
+  tft.setFreeFont(v6);
+  tft.setTextColor(TFT_WHITE);
+  tft.print("%");
   }
-
-
 }
 
 #endif
